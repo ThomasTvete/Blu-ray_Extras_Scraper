@@ -1,0 +1,92 @@
+Plex sortering 
+
+Se info om navngiving til extras nederst
+
+Specifying Edition Information
+You can specify or add edition information in a couple of different ways.
+
+Name the File Appropriately
+Anyone running a Plex Media Server can specify an edition for a movie simply by naming the video file correctly, when adding it to the library. Specifically, some special text needs to be added to the end of the filename. For example:
+
+/Media
+   /Movies
+      Blade Runner (1982) {edition-Director's Cut}.mp4
+      Blade Runner (1982) {edition-Final Cut}.mp4
+
+Refer to our dedicated naming and organizing article for specific details on how to name the files and/or folders to specify different editions. If you have local trailers or extras for any of your “multiple edition” movies, you should also review our information about those local trailers and extras.
+
+Multiple Versions of the Same Movie
+You can gather multiple versions of the same movie together (that have different resolutions or encoding formats) and collapse them to a single item. For example, you can have 3 versions: ones suitable for a mobile phone, a tablet, and a 1080p TV. The multiple versions will be collapsed to a single item in the library. When a Plex app goes to play the collapsed item, it will automatically request and play the most suitable item by default. Many apps will also allow you to select a Play Version action, where you can choose which version to play.
+
+Note: Not all Plex apps will allow you to manually choose which version to play. You should not rely on a choice being presented.
+
+To merge the files, name them:
+
+MovieName (Release Year) - ArbitraryText.ext
+Where ext is the file extension. (Some operating systems such as Windows may hide your file extensions by default.) ArbitraryText can be any text useful to you to identify the media from outside Plex. Plex will show you the actual resolution of the media if the app you’re using shows you a list or use the best file for a mobile app. The text you have there is not displayed.
+
+/Movies
+   /Pulp Fiction (1994)
+      Pulp Fiction (1994) - 1080p.mkv
+      Pulp Fiction (1994) - SD.m4v
+
+
+
+Organized in Subdirectories
+You can organize your local extras into specific subdirectories inside the main directory named for the movie. Extras will be detected and used if named and stored as follows:
+
+Movies/MovieName (Release Date)/Extra_Directory_Type/Descriptive_name.ext
+Where Extra_Directory_Type is one of:
+
+Behind The Scenes
+Deleted Scenes
+Featurettes
+Interviews
+Scenes
+Shorts
+Trailers
+Other
+
+It is recommended that you provide some sort of descriptive name for the extras filenames.
+
+
+Essays og Appreciations osv som IKKE viser den som snakker (se i så fall "Interview") går i Other under kun tittel på essay
+
+Korte dokumentarer om filmen, eller dokumentarer som er/ser ut som de er lagd spesifikt for DVD/Blu-ray extras (ta det litt på feelingen om dokumentaren virker verdt sin egen oppføring, se neste avsnitt for utdyping (se også Making the African Queen som unntak)), går i Featurettes under tittel på dokumentar med årstall i parantes. Også lengre behind the scenes videoer (20-30+ minutter) går under Featurettes, mens "featurettes" som er bare noen minutter lange og er åpenbart filmet on-set, går heller i Behind The Scenes
+
+Dokumentarer om filmen som er feature length(60+ minutter, men ta dette litt på feelingen, da Featurettes blir begravd bakerst i "Extras" på Plex så da er det mer relevant å ha dokumentaren i eget bibliotek om det er en lengre video) og aller helst har hatt en uavhengig teatralsk release/sin egen disk-utgivelse (egen Rotten Tomatoes entry er god pekepinn, dog dette er mer relevant først om dokumentaren ikke er en viss lengde), eller ikke er direkte relatert til den spesifikke filmen (uavhengig av lengde) og har sin egen oppføring i IMDB, kan gå i eget bibliotek for å få egen entry men uten å fylle opp blu-ray biblioteket. Se punktet over for unntak.
+
+Dokumentar-eksempler og hvor de går: 
+**Making African Queen** er knappe 59 minutter, men laget lenge etter filmen som en slags historisk essay, og får egen oppføring i eget bibliotek. **Re-Animator** har også en dokumentar laget lenge etterpå, dog men en mer "bonusmaterial-kvalitet" over seg, og over 60 minutter, og går i eget bibliotek. **Animal Kingdom** har en dokumentar på 68 minutter, men laget rundt samme tid som filmen og med tidligere nevnte kvaliteten over seg, og plasseres under sin respektive film. **Hellboy** er i samme båt som Animal Kingdom, MEN dens dokumentar er 143 minutter lang, og går definitivt i eget bibliotek. PS REVURDER DETTE: ALL MAKING OFF UNDER FILMENS ENTRY
+
+Dokumentarer som er sin egen utgivelse, som i jeg kjøpte denne blu-ray utgivelsen spesifikt for denne dokumentaren, ELLER det er en likeverdig del av et boks-sett (se All the Haunts Be Ours som eksempel), går i det vanlige blu-ray biblioteket som sin egen oppføring
+
+Shorts går i eget bibliotek, får egen entry, selv også i tilfeller som i All the Haunts Be Ours (samle de i en cross-library collection?), dog om det f.eks. er en slags overlapp med filmen (proof-of-concept for funding til filmen, kanskje(?)), eller det kanskje ikke har sin egen IMDB-oppføring en gang, så kan det gå i Shorts folder under selve filmen
+
+Tilfeldige TV-episoder av tilfeldige serier som er med som bonusmateriale til en film (som oftest fordi det har en relevanse til filmen) kan gå i Shorts folder under den aktuelle filmen (ikke nødvendig å rote til noen bibliotek med 1 av 100 episoder i en serie) (se extras til Unforgiven som eksempel) PS: Om episoden er en liten dokumentar fra en dokumentar serie, kan den like gjerne gå i dokumentar-biblioteket om den oppfyller de andre kravene til det (se Siricco diskens "Bogart: Here's Looking at You, Kid" som eksempel)
+
+Behind The Scenes er for korte klipp fra under filming, om den viser hvordan en scene blir filmet eller om det snakkes med cast og crew om det som skjer (men ikke om det er et fullt intervju)
+
+B-roll, screen tests, test footage, raw footage, etc, går i Other, med mindre det virker mer som Behind The Scenes (P.S. - vagt definert, finpuss etter erfaring)
+
+Interview går under navn om den har (inkludert årstall om det oppgis), og med info om hvem som intervjues (Stillingstittel + Navn), såkalte "discussions" går også her med mindre det er en faktisk forelesning eller noe nærmere ett essay
+
+Om noe er spesifikt navngitt som en "Introduction" og lagt inn til å spilles av før filmen går det under Other, og heter det samme som navnet om den mot formodning har, ellers heter den "Introduction by" + Stilling/Yrke + Navn på den som introduseres
+
+Bildegalleri går under Other
+
+Om du finner en kort videoklipp med tekstbasert info om restaureringen eller transferen av filmen kan det like gjerne bli med under Other
+
+Deleted Scenes og Scenes (derunder også Extended Scenes) går under kun navn på scenen om den har, eller en kort beskrivelse av scenen/kompilasjonen av scener. Om du får rippet scenene både som en kompilasjon og som seperate filer, bruk helst de seperate filene med beskrivende navn; spesielt om scenene har offisielle navn.
+
+Trailers kan spesifiseres som Theatrical, Original, International, European, American, etc etc Trailer, om det er påfallende hvilken trailer det er, ellers kan de bare hete Trailer 1 og Trailer 2 osv (eller bare Trailer om det kun er en av de)
+
+Radioteater og soundtracks går i egen folder og eget plex-bibliotek
+
+Trailere for ANDRE filmer, trenger ikke være med i det hele tatt
+
+Om noe hører hjemme både i f.eks. Featurettes og Behind The Scenes, prioriter som følgende: Featurettes>Interviews>Alt annet>Other
+
+Alt går under filmens standard Edition, med mindre det er noe som handler spesifikt om en annen edition (f.eks. en dokumentar om Director's Cut), da går kun de extras det gjelder under den spesifikke Edition
+
+PS: Om du har flere utgivelser av samme film, men selve filmene er ikke forskjellig på en måte som gjør det verdt det å ha begge versjoner, så kan ekstramateriale slås sammen under den utgivelsen du velger å beholde

@@ -14,8 +14,8 @@ filepath = r"D:\Midlertidig film folder\The Texas Chainsaw Massacre 2 [1986]\Alt
 duration = get_video_duration(filepath)
 print(f"Duration: {duration:.2f} seconds")
 
-publisher = "arrow"
-movie = 'texas chainsaw massacre 2 [1986]'
+publisher = "criterion"
+movie = 'mirror [1975]'
 file_folder = 'D:\\Midlertidig film folder\\' + movie
 format_disc = ""
 
@@ -42,10 +42,11 @@ def get_title_year(movie):
                              + r'\b\s(?:\(.*\)\s)?\bAKA\b\s.*?|^\b'
                              + title
                              + r'\b\s(?:\(.*\)\s)?\bAKA\b\s.*?|\bAKA\b\s\b'
-                             + title + r'\b\s(?:\(.*\)\s)?)'
-                             + r'^\b' + title + r'\b\s(?:\(.*\)\s)?', re.I)
+                             + title + r'\b\s(?:\(.*\)\s)?)|^\b'
+                             + title + r'\b\s(?:\(.*\)\s)?',
+                             re.I
+                                )
     return [title, title_regex, year]
-
 
 def convert_to_seconds(time):
     minutes, seconds = map(int, time.split(':'))
@@ -130,30 +131,36 @@ def run(playwright: Playwright):
     for extraEl in extraEls.all():
         extras.extend([line.strip() for line in extraEl.text_content().splitlines()])
 
-    time_regex = re.compile(r'\((\d{1,2}:\d{2}).*?\):?')
-    timed_extras = [ex for ex in extras if time_regex.findall(ex)]
     
+    
+    contextualized_extras = []
+    current_context = ""
+    sub_item_regex = re.compile(r'^\s*[-•*–]\s*') # leter etter listetegn
+    for ex in extras:
+        if sub_item_regex.findall(ex):
+            # om setningen har et listetegn så inkluderes den nyeste setningen uten listetegn som kontekst
+            contextualized_extras.append(f'{current_context} {ex}'.strip())
+            print(f'{current_context} {ex}'.strip())
+        else:
+            contextualized_extras.append(current_context)
+            current_context = ex
+
+    print('printer kontekst')
+    print(contextualized_extras)
+    time_regex = re.compile(r'\((\d{1,3}:\d{2}).*?\):?')
+    timed_extras = [ex for ex in contextualized_extras if time_regex.findall(ex)]
+
     #for ex in extras:
        # print(ex + ": " + str(type(ex)))
         
     print(timed_extras)
-    #for row in table.get_by_role("row").all():
-       # print("yeah boii")
-       # print(row.text_content())
-    # nope ny plan for hele denne greia:
-    #extras_regex = re.compile(
-    #r'^\s*[-•*–]?\s*'  # sjekker om det er sånn listetegn
-    #r'(?:"([^"]*)"\s*)?'  # tittel i hermetegn om det er der
-    #r'((?:.(?!\b\d{4}\b))*)' #Ekstra info
-    #r'(?:\s*.*?(\d{4}).*?\s*)?'  # årstall om oppgitt NB må finpusses
-    #r'(?:(.*?)\s*)?'  # Ekstra info NB får bare med info fra før årstall
-    #r'\s*\((\d{1,2}:\d{2}).*?\)'  # Lengde på klipp
-    #)
+   
 
     year_regex = re.compile(r'\b\d{4}\b')
     quoted_text_regex = re.compile(r'"([^"]+)"')
 
-    
+    formatedExtras = []
+
     for ex in timed_extras:
         #mo = extras_regex.search(ex)
         #print("Grupper:", mo.groups() if mo else "Ingen match")
@@ -161,22 +168,35 @@ def run(playwright: Playwright):
         year = year_regex.search(ex)
         time = time_regex.search(ex)
         remaining_text = ex
-        print_list = [ex]
+        extra_dic = {'original_text': ex}
         if title:
             title_text = title.group(1)
-            print_list.append(title_text)
+            extra_dic['title'] = title_text
             remaining_text = remaining_text.replace(title.group(0), '').strip()
         if year:
             year_text = year.group(0)
-            print_list.append(year_text)
+            extra_dic['year'] = year_text
             remaining_text = remaining_text.replace(year.group(0), '').strip()
         if time:
             time_text = time.group(1)
-            print_list.append(time_text)
+            extra_dic['time'] = time_text
             remaining_text = remaining_text.replace(time.group(0), '').strip()
         remaining_text = re.sub(r'\s+', ' ', remaining_text).strip()
-        print_list.append(remaining_text)
-        print(print_list)
+        extra_dic['leftovers'] = remaining_text
+        print(extra_dic)
+        formatedExtras.append(extra_dic)
+    
+    print(formatedExtras)
+
+    unique_extras = []
+    seen = set() #lettere å forsikre seg om at det ikke er gjentagende data med et set
+    for ex in formatedExtras:
+        tuplEx = tuple(ex.items())
+        if tuplEx not in seen:
+            seen.add(tuplEx)
+            unique_extras.append(ex)
+    
+    print(unique_extras)
 
     #video_renamer(file_folder, timed_extras, time_regex)
     

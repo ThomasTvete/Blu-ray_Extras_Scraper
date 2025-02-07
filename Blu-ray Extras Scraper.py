@@ -1,7 +1,7 @@
 from playwright.sync_api import sync_playwright, Playwright, TimeoutError
 #from bs4 import BeautifulSoup
 #from rich import print
-import re, ffmpeg, os, shutil, subprocess
+import re, ffmpeg, os, shutil, subprocess, pprint
 from moviepy import VideoFileClip
 
 def get_video_duration(filepath):
@@ -14,8 +14,8 @@ filepath = r"D:\Midlertidig film folder\The Texas Chainsaw Massacre 2 [1986]\Alt
 duration = get_video_duration(filepath)
 print(f"Duration: {duration:.2f} seconds")
 
-publisher = "criterion"
-movie = 'mirror [1975]'
+publisher = "arrow"
+movie = 'texas chainsaw massacre 2 [1986]'
 file_folder = 'D:\\Midlertidig film folder\\' + movie
 format_disc = ""
 
@@ -70,6 +70,15 @@ def video_renamer(file_folder, extras, t_rex):
 
 def get_search_url(title, year):
     return f"https://www.dvdcompare.net/comparisons/adv_search_results.php?title_search={title}&year_search={year}&and_or=and" 
+
+def get_title(string):
+    quoted_text_regex = re.compile(r'"([^"]+)"')
+    matches = quoted_text_regex.findall(string)
+
+    if len(matches) != 1:
+        return None
+    else:
+        return quoted_text_regex.search(string)
 
 def run(playwright: Playwright):
     
@@ -131,23 +140,23 @@ def run(playwright: Playwright):
     for extraEl in extraEls.all():
         extras.extend([line.strip() for line in extraEl.text_content().splitlines()])
 
-    
+    time_regex = re.compile(r'\((\d{1,3}:\d{2}).*?\):?')
     
     contextualized_extras = []
     current_context = ""
     sub_item_regex = re.compile(r'^\s*[-•*–]\s*') # leter etter listetegn
     for ex in extras:
         if sub_item_regex.findall(ex):
-            # om setningen har et listetegn så inkluderes den nyeste setningen uten listetegn som kontekst
+            # om setningen har et listetegn så inkluderes den siste setningen uten listetegn som kontekst
             contextualized_extras.append(f'{current_context} {ex}'.strip())
             print(f'{current_context} {ex}'.strip())
         else:
-            contextualized_extras.append(current_context)
-            current_context = ex
+            contextualized_extras.append(ex)
+            current_context = time_regex.sub('', ex).strip()
 
     print('printer kontekst')
     print(contextualized_extras)
-    time_regex = re.compile(r'\((\d{1,3}:\d{2}).*?\):?')
+    
     timed_extras = [ex for ex in contextualized_extras if time_regex.findall(ex)]
 
     #for ex in extras:
@@ -157,14 +166,14 @@ def run(playwright: Playwright):
    
 
     year_regex = re.compile(r'\b\d{4}\b')
-    quoted_text_regex = re.compile(r'"([^"]+)"')
+    
 
     formatedExtras = []
 
     for ex in timed_extras:
         #mo = extras_regex.search(ex)
         #print("Grupper:", mo.groups() if mo else "Ingen match")
-        title = quoted_text_regex.search(ex)
+        title = get_title(ex)
         year = year_regex.search(ex)
         time = time_regex.search(ex)
         remaining_text = ex
@@ -196,7 +205,7 @@ def run(playwright: Playwright):
             seen.add(tuplEx)
             unique_extras.append(ex)
     
-    print(unique_extras)
+    pprint.pprint(unique_extras)
 
     #video_renamer(file_folder, timed_extras, time_regex)
     
